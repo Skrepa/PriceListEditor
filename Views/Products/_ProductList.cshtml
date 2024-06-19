@@ -1,0 +1,57 @@
+﻿@using X.PagedList;
+@model IPagedList<PriceListEditor.Models.Product>
+@{
+    var columns = ViewBag.PriceListColumns as List<PriceListEditor.Models.PriceListColumn>;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="#" class="sort-link" data-sort="@ViewBag.NameSortParm">Название продукта</a>
+            </th>
+            <th>
+                <a href="#" class="sort-link" data-sort="@ViewBag.CodeSortParm">Код продукта</a>
+            </th>
+            @if (columns != null)
+            {
+                @foreach (var columnn in columns)
+                {
+                    <th>
+                        @columnn.Name
+                    </th>
+                }
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Code</td>
+                @foreach (var column in ViewBag.PriceListColumns)
+                {
+                    <td>
+                        @(product.AdditionalColumns != null && product.AdditionalColumns.ContainsKey(column.Name) ? product.AdditionalColumns[column.Name] : string.Empty)
+                    </td>
+                }
+                <td>
+                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= (ViewBag.TotalProducts + Model.PageSize - 1) / Model.PageSize; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a href="#" class="page-link" data-page="@i">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

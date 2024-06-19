@@ -1,0 +1,74 @@
+﻿@using X.PagedList;
+
+@model IPagedList<PriceListEditor.Models.Product>
+
+@{
+    ViewData["Title"] = "Редактор прайс-листов | Продукты";
+    int priceListId = ViewBag.PriceListId != null ? (int)ViewBag.PriceListId : 0;
+    string nameSortParm = ViewBag.NameSortParm;
+    string codeSortParm = ViewBag.CodeSortParm;
+    string priceListName = ViewBag.PriceListName != null ? ViewBag.PriceListName.ToString() : "Неизвестный прайс-лист";
+}
+
+<h2>Продукты в @priceListName</h2>
+
+<p>
+    <a asp-action="Create" asp-route-priceListId="@priceListId" class="btn btn-outline-primary">Добавить продукт</a>
+    <a asp-action="Index" asp-controller="PriceLists" class="btn btn-secondary">Назад</a>
+</p>
+
+<div id="product-list">
+    @{await Html.RenderPartialAsync("_ProductList", Model);}
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadProducts(sortOrder, pageNumber) {
+                $.ajax({
+                    url: '@Url.Action("Index", "Products")',
+                    type: 'GET',
+                    data: {
+                        priceListId: @priceListId,
+                        sortOrder: sortOrder,
+                        pageNumber: pageNumber
+                    },
+                    success: function (data) {
+                        $("#product-list").html(data);
+                        attachSortEvents();
+                    }
+                });
+            }
+
+            function attachSortEvents() {
+                $(".sort-link").off("click").on("click", function (event) {
+                    event.preventDefault();
+                    var sortOrder = $(this).data("sort");
+                    updateUrlParameter("sortOrder", sortOrder); // Обновление параметра сортировки в URL
+                    loadProducts(sortOrder, 1); // Перезагрузка с сортировкой, первая страница
+
+                });
+
+                $(".page-link").off("click").on("click", function (event) {
+                    event.preventDefault();
+                    var pageNumber = $(this).data("page");
+                    var sortOrder = getUrlParameter("sortOrder"); // Получение текущего значения сортировки из параметров запроса
+                    loadProducts(sortOrder, pageNumber);
+                });
+            }
+
+            function updateUrlParameter(key, value) {
+                var url = new URL(window.location.href);
+                url.searchParams.set(key, value);
+                window.history.replaceState({}, '', url);
+            }
+
+            function getUrlParameter(name) {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+            attachSortEvents();
+        });
+    </script>
+}

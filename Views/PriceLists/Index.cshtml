@@ -1,0 +1,29 @@
+﻿@model IEnumerable<PriceListEditor.Models.PriceList>
+    <!-- Модель данных - коллекция прайс-листов -->
+@{
+    ViewData["Title"] = "Редактор прайс-лситов|Список прайс листов"; 
+}
+
+<h2>Список Прайс-листов</h2> 
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary">Новый прайс</a> 
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th> 
+            <th>Товары</th> 
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) //Перебор всех прайс-листов в модели
+        {
+            <tr>
+                <td><a asp-action="Index" asp-controller="Products" asp-route-priceListId="@item.Id">@item.Name</a></td> 
+                <td>@item.Products.Count</td> 
+            </tr>
+        }
+    </tbody>
+</table>

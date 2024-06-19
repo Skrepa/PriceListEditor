@@ -1,0 +1,62 @@
+﻿@model PriceListEditor.Models.Product
+
+@{
+    ViewData["Title"] = "Редактор прайс-листов|Добавление продукта";
+    var priseListColumns = ViewBag.PriceListColumns;
+}
+
+<h1>Добавление продукта</h1>
+
+<h4>Продукт</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Название</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label">Код</label>
+                <input asp-for="Code" class="form-control" type="number" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            @if (priseListColumns != null)
+            {
+                foreach (var column in priseListColumns)
+                {
+                    <div class="form-group">
+                        <label class="control-label">@column.Name</label>
+                        @if (column.DataType == "int")
+                        {
+                            <input type="number" name="AdditionalColumns[@column.Name]" class="form-control" required data-val="true" data-val-required="Поле @column.Name обязательно." />
+                        }
+                        else if (column.DataType == "string")
+                        {
+                            <input type="text" name="AdditionalColumns[@column.Name]" class="form-control" required data-val="true" data-val-required="Поле @column.Name обязательно." />
+                        }
+                        else if (column.DataType == "textarea")
+                        {
+                            <textarea name="AdditionalColumns[@column.Name]" class="form-control" required data-val="true" data-val-required="Поле @column.Name обязательно."></textarea>
+                        }
+                        <span class="text-danger" data-valmsg-for="AdditionalColumns[@column.Name]" data-valmsg-replace="true"></span>
+                    </div>
+                }
+            }
+            <input type="hidden" asp-for="PriceListId" />
+
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-priceListId="@Model.PriceListId" class="btn btn-secondary">Назад</a> 
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+}

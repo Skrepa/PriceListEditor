@@ -1,0 +1,46 @@
+﻿@model PriceListEditor.Models.Product
+
+@{
+    ViewData["Title"] = "Удалить продукт";
+}
+
+<h2>Вы уверены, что хотите удалить этот продукт?</h2>
+<div>
+    <h4>Продукт</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <!-- Дополнительные колонки, если есть -->
+        @if (Model.AdditionalColumns != null && Model.AdditionalColumns.Any())
+        {
+            foreach (var column in Model.AdditionalColumns)
+            {
+                <dt class="col-sm-2">
+                    @column.Key
+                </dt>
+                <dd class="col-sm-10">
+                    @column.Value
+                </dd>
+            }
+        }
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <input type="submit" value="Удалить" class="btn btn-danger" />
+            <a asp-action="Index" asp-route-priceListId="@Model.PriceListId" class="btn btn-secondary">Назад к списку</a>
+        </div>
+    </form>
+</div>

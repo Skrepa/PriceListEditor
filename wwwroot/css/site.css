@@ -1,0 +1,49 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/* Основные стили для всех кнопок страниц */
+.pagination .page-item .page-link {
+    background-color: #f8f9fa; /* светло-серый цвет фона */
+    color: #007bff; /* синий текст */
+    border: 1px solid #dee2e6; /* светло-серая граница */
+}
+
+/* Стили для активной страницы */
+.pagination .page-item.active .page-link {
+    background-color: #007bff; /* синий цвет фона для активной страницы */
+    color: white; /* белый текст для активной страницы */
+    border: 1px solid #007bff; /* синие границы */
+}
+
+/* Стили для кнопок страниц при наведении курсора */
+.pagination .page-item .page-link:hover {
+    background-color: #e9ecef; /* светло-серый цвет фона при наведении */
+    color: #0056b3; /* более темный синий текст при наведении */
+}
+
+/* Отменяем эффект наведения для активной страницы */
+.pagination .page-item.active .page-link:hover {
+    background-color: #007bff; /* цвет фона активной страницы остается синим */
+    color: white; /* текст остается белым */
+    border: 1px solid #007bff; /* границы остаются синими */
+}
