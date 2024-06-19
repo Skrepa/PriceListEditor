@@ -12,8 +12,8 @@
 Удаление товара происходит только после подтверждения действия. 
 
 Технологии:
-ASP.NET CORE MVC
-JavaScript
-HTML+CSS
-Entity Framework Core + MS SQL Server
+ASP.NET CORE MVC,
+JavaScript,
+HTML+CSS,
+Entity Framework Core + MS SQL Server,
 Bootstrap.
